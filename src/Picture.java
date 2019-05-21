@@ -6,7 +6,6 @@ public class Picture extends JPanel {
 
     public Picture(Dimension picSize) {
         this.picSize = picSize;
-        setBackground(Color.decode("A8BFBA"));
     }
 
     public Picture(int width, int height) {
@@ -20,7 +19,8 @@ public class Picture extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-
+        g2d.drawRect(10, 10, 700, 450);
     }
 }
