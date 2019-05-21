@@ -5,8 +5,6 @@ public class EditorWindow {
     private JPanel mainPanel;
     private Picture picture;
     private JScrollPane scrollPane;
-    private JPanel save;
-    private JPanel size;
     private JPanel intstruments;
     private JButton pasteButton;
     private JButton pencil;
@@ -15,6 +13,9 @@ public class EditorWindow {
     private JButton picker;
     private JButton textButton;
     private JButton zoom;
+    private JButton selectButton;
+    private Colors colors;
+    private JButton customButton;
     private JFrame frame = new JFrame("EditorWindow");
 
     public EditorWindow() {
@@ -32,6 +33,10 @@ public class EditorWindow {
         textButton.setFocusPainted(false);
         zoom.setContentAreaFilled(false);
         zoom.setFocusPainted(false);
+        selectButton.setContentAreaFilled(false);
+        selectButton.setFocusPainted(false);
+        customButton.setContentAreaFilled(false);
+        customButton.setFocusPainted(false);
     }
 
     public static void main(String[] args) {
@@ -40,10 +45,13 @@ public class EditorWindow {
         frame.setContentPane(window.mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setSize(1200, 800);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     private void createUIComponents() {
         picture = new Picture(600, 400);
+        colors = new Colors();
     }
 }
