@@ -12,10 +12,12 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
-        <properties/>
+        <properties>
+          <verticalScrollBarPolicy value="20"/>
+        </properties>
         <border type="none"/>
         <children>
-          <grid id="4d472" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="5" vgap="5">
+          <grid id="4d472" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="5" vgap="5">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints/>
             <properties>
@@ -44,7 +46,9 @@
               </vspacer>
               <hspacer id="aa72f">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="882" height="11"/>
+                  </grid>
                 </constraints>
               </hspacer>
             </children>
@@ -56,7 +60,9 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <gridbag weightx="1.0" weighty="0.3"/>
         </constraints>
-        <properties/>
+        <properties>
+          <verticalScrollBarPolicy value="20"/>
+        </properties>
         <border type="none"/>
         <children>
           <grid id="eec88" binding="actions" layout-manager="GridBagLayout">
@@ -174,7 +180,7 @@
               </component>
               <component id="27736" class="Colors" binding="colors" custom-create="true">
                 <constraints>
-                  <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties/>
@@ -193,14 +199,41 @@
               </hspacer>
               <component id="6bfd4" class="javax.swing.JButton" binding="customButton" default-binding="true">
                 <constraints>
-                  <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
                   <horizontalTextPosition value="0"/>
                   <icon value="icons8-question-mark-24.png"/>
-                  <text value="Custom"/>
+                  <text value="&lt;html&gt;Custom&lt;br&gt;color&lt;/html&gt;"/>
                   <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+              <component id="7553f" class="PickedColor" binding="pickedColor1" custom-create="true" default-binding="true">
+                <constraints>
+                  <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="544be" class="PickedColor" binding="pickedColor2" custom-create="true" default-binding="true">
+                <constraints>
+                  <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="5cfb2" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <text value="Colors"/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="0"/>
                 </properties>
               </component>
             </children>

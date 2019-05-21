@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class EditorWindow {
     private JPanel actions;
@@ -16,9 +17,15 @@ public class EditorWindow {
     private JButton selectButton;
     private Colors colors;
     private JButton customButton;
+    private PickedColor pickedColor1;
+    private PickedColor pickedColor2;
     private JFrame frame = new JFrame("EditorWindow");
 
     public EditorWindow() {
+        initButtons();
+    }
+
+    private void initButtons() {
         pasteButton.setContentAreaFilled(false);
         pasteButton.setFocusPainted(false);
         pencil.setContentAreaFilled(false);
@@ -37,6 +44,7 @@ public class EditorWindow {
         selectButton.setFocusPainted(false);
         customButton.setContentAreaFilled(false);
         customButton.setFocusPainted(false);
+        customButton.setPreferredSize(new Dimension(80, 100));
     }
 
     public static void main(String[] args) {
@@ -53,5 +61,7 @@ public class EditorWindow {
     private void createUIComponents() {
         picture = new Picture(600, 400);
         colors = new Colors();
+        pickedColor1 = new PickedColor(Color.white, "Color 1");
+        pickedColor2 = new PickedColor(Color.black, "Color 2");
     }
 }
