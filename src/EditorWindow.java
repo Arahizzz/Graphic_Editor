@@ -6,7 +6,6 @@ public class EditorWindow {
     private JPanel mainPanel;
     private Picture picture;
     private JScrollPane scrollPane;
-    private JPanel intstruments;
     private JButton pasteButton;
     private JButton pencil;
     private JButton fill;
@@ -14,12 +13,20 @@ public class EditorWindow {
     private JButton picker;
     private JButton textButton;
     private JButton zoom;
+    private JPanel intstruments;
+    private JPanel instPanel;
     private JButton selectButton;
     private Colors colors;
     private JButton customButton;
     private PickedColor pickedColor1;
     private PickedColor pickedColor2;
+    private EditorWindow editorWindow1;
     private JFrame frame = new JFrame("EditorWindow");
+    private JButton line;
+    private JButton rectangle;
+    private JButton circle;
+    private JButton button4;
+    private JPanel shapes;
 
     public EditorWindow() {
         initButtons();
@@ -45,6 +52,14 @@ public class EditorWindow {
         customButton.setContentAreaFilled(false);
         customButton.setFocusPainted(false);
         customButton.setPreferredSize(new Dimension(80, 100));
+        line.setContentAreaFilled(false);
+        line.setFocusPainted(false);
+        circle.setContentAreaFilled(false);
+        circle.setFocusPainted(false);
+        rectangle.setContentAreaFilled(false);
+        rectangle.setFocusPainted(false);
+        button4.setContentAreaFilled(false);
+        button4.setFocusPainted(false);
     }
 
     public static void main(String[] args) {
