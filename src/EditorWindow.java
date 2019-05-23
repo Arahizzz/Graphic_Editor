@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class EditorWindow {
     private JPanel actions;
@@ -7,12 +9,6 @@ public class EditorWindow {
     private Picture picture;
     private JScrollPane scrollPane;
     private JButton pasteButton;
-    private JButton pencil;
-    private JButton fill;
-    private JButton erase;
-    private JButton picker;
-    private JButton textButton;
-    private JButton zoom;
     private JPanel intstruments;
     private JPanel instPanel;
     private JButton selectButton;
@@ -22,17 +18,75 @@ public class EditorWindow {
     private PickedColor pickedColor2;
     private EditorWindow editorWindow1;
     private JFrame frame = new JFrame("EditorWindow");
-    private JButton line;
-    private JButton rectangle;
-    private JButton circle;
-    private JButton button4;
     private JPanel shapes;
+    private JToggleButton pencil;
+    private JToggleButton fill;
+    private JToggleButton text;
+    private JToggleButton erase;
+    private JToggleButton zoom;
+    private JToggleButton picker;
+    private JToggleButton line;
+    private JToggleButton rectangle;
+    private JToggleButton button4;
+    private JToggleButton circle;
+    private JToggleButton select;
 
     public EditorWindow() {
         initButtons();
     }
 
     private void initButtons() {
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(pencil);
+        buttonGroup.add(fill);
+        buttonGroup.add(erase);
+        buttonGroup.add(picker);
+        buttonGroup.add(text);
+        buttonGroup.add(zoom);
+        buttonGroup.add(line);
+        buttonGroup.add(rectangle);
+        buttonGroup.add(circle);
+        buttonGroup.add(selectButton);
+        buttonGroup.add(select);
+
+        line.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                picture.lineDrawer();
+            }
+        });
+
+        erase.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                picture.eraser();
+            }
+        });
+
+        circle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                picture.ellipse();
+            }
+        });
+
+        rectangle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                picture.rectangle();
+            }
+        });
+
+        select.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                picture.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+    }
+
+    private void flattenButtons() {
         pasteButton.setContentAreaFilled(false);
         pasteButton.setFocusPainted(false);
         pencil.setContentAreaFilled(false);
@@ -43,8 +97,8 @@ public class EditorWindow {
         erase.setFocusPainted(false);
         picker.setContentAreaFilled(false);
         picker.setFocusPainted(false);
-        textButton.setContentAreaFilled(false);
-        textButton.setFocusPainted(false);
+        text.setContentAreaFilled(false);
+        text.setFocusPainted(false);
         zoom.setContentAreaFilled(false);
         zoom.setFocusPainted(false);
         selectButton.setContentAreaFilled(false);
@@ -75,7 +129,6 @@ public class EditorWindow {
 
     private void createUIComponents() {
         picture = new Picture(600, 400);
-        colors = new Colors();
         pickedColor1 = new PickedColor(Color.white, "Color 1");
         pickedColor2 = new PickedColor(Color.black, "Color 2");
     }

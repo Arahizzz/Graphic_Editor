@@ -72,77 +72,71 @@
             <children>
               <grid id="e5782" binding="intstruments" layout-manager="GridBagLayout">
                 <constraints>
-                  <grid row="0" column="3" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="3" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="92aae" class="javax.swing.JButton" binding="pencil">
+                  <component id="f6aeb" class="javax.swing.JToggleButton" binding="pencil">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="1.0" weighty="1.0"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
                       <icon value="icons8-pencil-26.png"/>
-                      <text value=""/>
                     </properties>
                   </component>
-                  <component id="eaad6" class="javax.swing.JButton" binding="fill">
+                  <component id="d2419" class="javax.swing.JToggleButton" binding="fill">
                     <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="1.0" weighty="1.0"/>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
                       <icon value="icons8-fill-color-26.png"/>
-                      <text value=""/>
                     </properties>
                   </component>
-                  <component id="c7d92" class="javax.swing.JButton" binding="erase">
+                  <component id="7177d" class="javax.swing.JToggleButton" binding="text">
                     <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <icon value="icons8-eraser-24.png"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="2bef6" class="javax.swing.JButton" binding="picker">
-                    <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <icon value="icons8-color-dropper-26.png"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="d4cbc" class="javax.swing.JButton" binding="textButton">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
                       <icon value="icons8-typography-26.png"/>
-                      <text value=""/>
                     </properties>
                   </component>
-                  <component id="4205b" class="javax.swing.JButton" binding="zoom">
+                  <component id="f4cc9" class="javax.swing.JToggleButton" binding="erase">
                     <constraints>
-                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="icons8-eraser-24.png"/>
+                    </properties>
+                  </component>
+                  <component id="76fbf" class="javax.swing.JToggleButton" binding="picker">
+                    <constraints>
+                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="icons8-color-dropper-26.png"/>
+                    </properties>
+                  </component>
+                  <component id="f3244" class="javax.swing.JToggleButton" binding="zoom">
+                    <constraints>
+                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
                       <icon value="icons8-search-26.png"/>
-                      <text value=""/>
                     </properties>
                   </component>
                 </children>
               </grid>
               <component id="ca4ed" class="javax.swing.JButton" binding="pasteButton">
                 <constraints>
-                  <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="4" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
@@ -156,7 +150,7 @@
               </component>
               <component id="d5330" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
@@ -167,7 +161,7 @@
               </component>
               <component id="4f795" class="javax.swing.JButton" binding="selectButton" default-binding="true">
                 <constraints>
-                  <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="1" row-span="4" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
@@ -180,87 +174,19 @@
               </component>
               <hspacer id="8577a">
                 <constraints>
-                  <grid row="0" column="2" row-span="2" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="2" row-span="4" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
               </hspacer>
               <hspacer id="938f8">
                 <constraints>
-                  <grid row="0" column="4" row-span="2" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="4" row-span="4" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
               </hspacer>
-              <component id="7553f" class="PickedColor" binding="pickedColor1" custom-create="true" default-binding="true">
-                <constraints>
-                  <grid row="0" column="5" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties/>
-              </component>
-              <grid id="c0953" binding="shapes" layout-manager="GridBagLayout">
-                <constraints>
-                  <grid row="0" column="10" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="acc6b" class="javax.swing.JButton" binding="line">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <icon value="icons8-line-26.png"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="2faf9" class="javax.swing.JButton" binding="rectangle">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <icon value="icons8-rectangular-24.png"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="7eb25" class="javax.swing.JButton" binding="circle">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <icon value="icons8-0-degrees-24.png"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="8bac1" class="javax.swing.JButton" binding="button4" default-binding="true">
-                    <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <component id="6bfd4" class="javax.swing.JButton" binding="customButton" default-binding="true">
-                <constraints>
-                  <grid row="0" column="8" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <horizontalTextPosition value="0"/>
-                  <icon value="icons8-question-mark-24.png"/>
-                  <text value="&lt;html&gt;Custom&lt;br&gt;color&lt;/html&gt;"/>
-                  <verticalTextPosition value="3"/>
-                </properties>
-              </component>
               <component id="5cfb2" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="2" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
@@ -273,24 +199,101 @@
               </component>
               <hspacer id="89e41">
                 <constraints>
-                  <grid row="1" column="9" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="8" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
               </hspacer>
-              <component id="56c0a" class="PickedColor" binding="pickedColor2" custom-create="true" default-binding="true">
+              <grid id="c0953" binding="shapes" layout-manager="GridBagLayout">
                 <constraints>
-                  <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="9" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties/>
-              </component>
+                <border type="none"/>
+                <children>
+                  <component id="aa1ea" class="javax.swing.JToggleButton" binding="line">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="icons8-line-26.png"/>
+                    </properties>
+                  </component>
+                  <component id="fa5d7" class="javax.swing.JToggleButton" binding="button4">
+                    <constraints>
+                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="11a8d" class="javax.swing.JToggleButton" binding="rectangle">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="icons8-rectangular-24.png"/>
+                    </properties>
+                  </component>
+                  <component id="f13e0" class="javax.swing.JToggleButton" binding="circle">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="icons8-0-degrees-24.png"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
               <component id="be3ee" class="Colors" binding="colors">
                 <constraints>
-                  <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties/>
               </component>
+              <component id="6bfd4" class="javax.swing.JButton" binding="customButton" default-binding="true">
+                <constraints>
+                  <grid row="2" column="7" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <horizontalTextPosition value="0"/>
+                  <icon value="icons8-question-mark-24.png"/>
+                  <text value="&lt;html&gt;Custom&lt;br&gt;color&lt;/html&gt;"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+              <component id="62af6" class="javax.swing.JToggleButton" binding="select">
+                <constraints>
+                  <grid row="0" column="3" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <icon value="icons8-cursor-26.png"/>
+                  <text value="Selection mode"/>
+                </properties>
+              </component>
+              <grid id="876e9" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints>
+                  <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="46554" class="PickedColor" binding="pickedColor1" custom-create="true" default-binding="true">
+                    <constraints border-constraint="West"/>
+                    <properties/>
+                  </component>
+                  <component id="eb655" class="PickedColor" binding="pickedColor2" custom-create="true" default-binding="true">
+                    <constraints border-constraint="East"/>
+                    <properties/>
+                  </component>
+                </children>
+              </grid>
             </children>
           </grid>
         </children>

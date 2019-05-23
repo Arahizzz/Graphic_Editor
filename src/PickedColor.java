@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class PickedColor extends JButton {
+public class PickedColor extends JToggleButton {
     private Color color;
 
     public PickedColor(Color color, String text) {
@@ -13,8 +13,6 @@ public class PickedColor extends JButton {
         setVerticalAlignment(BOTTOM);
         setHorizontalTextPosition(CENTER);
         setHorizontalAlignment(CENTER);
-        setContentAreaFilled(false);
-        setFocusPainted(false);
     }
 
     public void setColor(Color color) {
