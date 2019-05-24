@@ -128,8 +128,9 @@ public class EditorWindow {
     }
 
     private void createUIComponents() {
-        picture = new Picture(600, 400);
-        pickedColor1 = new PickedColor(Color.white, "Color 1");
-        pickedColor2 = new PickedColor(Color.black, "Color 2");
+        pickedColor1 = new PickedColor(Color.BLACK, "Color 1");
+        pickedColor2 = new PickedColor(Color.WHITE, "Color 2");
+        colors = new Colors(pickedColor1, pickedColor2);
+        picture = new Picture(600, 400, pickedColor1, pickedColor2);
     }
 }

@@ -1,9 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Colors extends JPanel {
+    private PickedColor pickedColor1;
+    private PickedColor pickedColor2;
 
-    public Colors() {
+    public Colors(PickedColor pickedColor1, PickedColor pickedColor2) {
+        this.pickedColor1 = pickedColor1;
+        this.pickedColor2 = pickedColor2;
         setLayout(new GridLayout(3, 10));
         createButton(Color.BLACK);
         createButton(Color.white);
@@ -30,6 +36,16 @@ public class Colors extends JPanel {
         button.setPreferredSize(new Dimension(32, 32));
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (SwingUtilities.isLeftMouseButton(e))
+                    pickedColor1.setColor(color);
+                else
+                    pickedColor2.setColor(color);
+            }
+        });
         add(button);
     }
 

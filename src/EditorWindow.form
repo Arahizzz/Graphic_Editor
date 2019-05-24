@@ -247,7 +247,7 @@
                   </component>
                 </children>
               </grid>
-              <component id="be3ee" class="Colors" binding="colors">
+              <component id="be3ee" class="Colors" binding="colors" custom-create="true">
                 <constraints>
                   <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>

@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -6,31 +5,37 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.util.LinkedHashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class Picture extends JPanel {
+    private PickedColor pickedColor1;
+    private PickedColor pickedColor2;
     private Dimension picSize;
-    LinkedHashSet<Shape> shapes = new LinkedHashSet<>();
+    private LinkedList<ShapeWrapper> shapes = new LinkedList<ShapeWrapper>();
     MouseAdapter adapter = new MouseAdapter() {
     };
 
-    public Picture(Dimension picSize) {
+    public Picture(Dimension picSize, PickedColor pickedColor1, PickedColor pickedColor2) {
         this.picSize = picSize;
+        this.pickedColor1 = pickedColor1;
+        this.pickedColor2 = pickedColor2;
         addMouseListener(adapter);
         addMouseMotionListener(adapter);
     }
 
-    public Picture(int width, int height) {
-        this(new Dimension(width, height));
+    public Picture(int width, int height, PickedColor pickedColor1, PickedColor pickedColor2) {
+        this(new Dimension(width, height), pickedColor1, pickedColor2);
     }
 
     public void lineDrawer() {
         removeMouseListener(adapter);
         removeMouseMotionListener(adapter);
         MouseAdapter adapter = new MouseAdapter() {
-            int x0;
-            int y0;
-            Line2D line;
+            private int x0;
+            private int y0;
+            private Line2D line;
+            private ShapeWrapper wrapper;
 
             @Override
             public void mousePressed(MouseEvent e) {
@@ -38,15 +43,17 @@ public class Picture extends JPanel {
                 x0 = e.getX();
                 y0 = e.getY();
                 line = new Line2D.Double(x0, y0, x0, y0);
-                shapes.add(line);
+                wrapper = new ShapeWrapper(line, pickedColor1.getColor(), pickedColor2.getColor());
+                shapes.add(wrapper);
             }
 
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseMoved(e);
-                shapes.remove(line);
+                shapes.removeLast();
                 line = new Line2D.Double(x0, y0, e.getX(), e.getY());
-                shapes.add(line);
+                wrapper = new ShapeWrapper(line, pickedColor1.getColor(), pickedColor2.getColor());
+                shapes.add(wrapper);
                 repaint();
             }
         };
@@ -65,10 +72,12 @@ public class Picture extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 super.mousePressed(e);
                 Rectangle2D.Double area = new Rectangle2D.Double(e.getX() - 7, e.getY() - 7, 7, 7);
-                Shape[] asArray = shapes.toArray(new Shape[0]);
-                for (int i = asArray.length - 1; i >= 0; i--) {
-                    if (asArray[i].intersects(area)) {
-                        shapes.remove(asArray[i]);
+                Iterator<ShapeWrapper> shapeIterator = shapes.descendingIterator();
+                ShapeWrapper wrapper;
+                while (shapeIterator.hasNext()) {
+                    wrapper = shapeIterator.next();
+                    if (wrapper.getShape().intersects(area)) {
+                        shapes.remove(wrapper);
                         repaint();
                         break;
                     }
@@ -85,9 +94,10 @@ public class Picture extends JPanel {
         removeMouseListener(adapter);
         removeMouseMotionListener(adapter);
         MouseAdapter adapter = new MouseAdapter() {
-            int x0;
-            int y0;
-            Rectangle2D rectangle;
+            private int x0;
+            private int y0;
+            private Rectangle2D rectangle;
+            private ShapeWrapper wrapper;
 
             @Override
             public void mousePressed(MouseEvent e) {
@@ -95,7 +105,8 @@ public class Picture extends JPanel {
                 x0 = e.getX();
                 y0 = e.getY();
                 rectangle = new Rectangle2D.Double(x0, y0, 0, 0);
-                shapes.add(rectangle);
+                wrapper = new ShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
+                shapes.add(wrapper);
             }
 
             @Override
@@ -103,16 +114,21 @@ public class Picture extends JPanel {
                 int x1 = e.getX();
                 int y1 = e.getY();
                 super.mouseMoved(e);
-                shapes.remove(rectangle);
-                if (x0 <= x1 && y0 <= y1)
+                shapes.removeLast();
+                if (x0 <= x1 && y0 <= y1) {
                     rectangle = new Rectangle2D.Double(x0, y0, x1 - x0, y1 - y0);
-                else if (x0 > x1 && y0 > y1)
+                    wrapper = new ShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
+                } else if (x0 > x1 && y0 > y1) {
                     rectangle = new Rectangle2D.Double(x1, y1, x0 - x1, y0 - y1);
-                else if (x0 > x1)
+                    wrapper = new ShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
+                } else if (x0 > x1) {
                     rectangle = new Rectangle2D.Double(x1, y0, x0 - x1, y1 - y0);
-                else
+                    wrapper = new ShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
+                } else {
                     rectangle = new Rectangle2D.Double(x0, y1, x1 - x0, y0 - y1);
-                shapes.add(rectangle);
+                    wrapper = new ShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
+                }
+                shapes.add(wrapper);
                 repaint();
             }
         };
@@ -127,9 +143,10 @@ public class Picture extends JPanel {
         removeMouseListener(adapter);
         removeMouseMotionListener(adapter);
         MouseAdapter adapter = new MouseAdapter() {
-            int x0;
-            int y0;
-            Ellipse2D ellipse;
+            private int x0;
+            private int y0;
+            private Ellipse2D ellipse;
+            private ShapeWrapper wrapper;
 
             @Override
             public void mousePressed(MouseEvent e) {
@@ -137,7 +154,7 @@ public class Picture extends JPanel {
                 x0 = e.getX();
                 y0 = e.getY();
                 ellipse = new Ellipse2D.Double(x0, y0, 0, 0);
-                shapes.add(ellipse);
+                shapes.addLast(new ShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor()));
             }
 
             @Override
@@ -145,16 +162,21 @@ public class Picture extends JPanel {
                 int x1 = e.getX();
                 int y1 = e.getY();
                 super.mouseMoved(e);
-                shapes.remove(ellipse);
-                if (x0 <= x1 && y0 <= y1)
+                shapes.removeLast();
+                if (x0 <= x1 && y0 <= y1) {
                     ellipse = new Ellipse2D.Double(x0, y0, x1 - x0, y1 - y0);
-                else if (x0 > x1 && y0 > y1)
+                    wrapper = new ShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
+                } else if (x0 > x1 && y0 > y1) {
                     ellipse = new Ellipse2D.Double(x1, y1, x0 - x1, y0 - y1);
-                else if (x0 > x1)
+                    wrapper = new ShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
+                } else if (x0 > x1) {
                     ellipse = new Ellipse2D.Double(x1, y0, x0 - x1, y1 - y0);
-                else
+                    wrapper = new ShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
+                } else {
                     ellipse = new Ellipse2D.Double(x0, y1, x1 - x0, y0 - y1);
-                shapes.add(ellipse);
+                    wrapper = new ShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
+                }
+                shapes.add(wrapper);
                 repaint();
             }
         };
@@ -178,8 +200,45 @@ public class Picture extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        for (Shape shape : shapes) {
+        Shape shape;
+        for (ShapeWrapper wrapper : shapes) {
+            shape = wrapper.getShape();
+            g2d.setColor(wrapper.getFillColor());
+            g2d.fill(shape);
+            g2d.setColor(wrapper.getBorderColor());
             g2d.draw(shape);
         }
+    }
+}
+
+class ShapeWrapper {
+    private Shape shape;
+    private Color borderColor;
+    private Color fillColor;
+
+    public ShapeWrapper(Shape shape, Color borderColor, Color fillColor) {
+        this.shape = shape;
+        this.borderColor = borderColor;
+        this.fillColor = fillColor;
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    public Color getFillColor() {
+        return fillColor;
+    }
+
+    public void setFillColor(Color fillColor) {
+        this.fillColor = fillColor;
+    }
+
+    public Shape getShape() {
+        return shape;
     }
 }
