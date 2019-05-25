@@ -84,6 +84,20 @@ public class EditorWindow {
                 picture.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         });
+
+        fill.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                picture.fill();
+            }
+        });
+
+        pencil.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                picture.Pencil();
+            }
+        });
     }
 
     private void flattenButtons() {
