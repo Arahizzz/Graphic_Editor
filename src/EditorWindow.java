@@ -1,7 +1,5 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.MenuKeyEvent;
-import javax.swing.event.MenuKeyListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
@@ -185,7 +183,7 @@ public class EditorWindow {
         select.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                picture.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                picture.selection();
             }
         });
 
@@ -202,6 +200,7 @@ public class EditorWindow {
                 picture.Pencil();
             }
         });
+
     }
 
     public static void main(String[] args) {

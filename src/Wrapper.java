@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -6,6 +8,8 @@ public interface Wrapper {
     Shape getShape();
 
     void paint(Graphics2D graphics2D);
+
+    void move(int x, int y);
 }
 
 class ShapeWrapper implements Wrapper {
@@ -47,6 +51,21 @@ class ShapeWrapper implements Wrapper {
         g2d.setColor(borderColor);
         g2d.draw(shape);
     }
+
+    @Override
+    public void move(int x, int y) {
+        if (shape instanceof Ellipse2D.Double) {
+            Ellipse2D.Double ellipse2D = (Ellipse2D.Double) shape;
+            ellipse2D.setFrame(ellipse2D.x + x, ellipse2D.y + y, ellipse2D.getWidth(), ellipse2D.getHeight());
+        } else if (shape instanceof Rectangle2D.Double) {
+            Rectangle2D.Double rect = (Rectangle2D.Double) shape;
+            rect.setFrame(rect.getX() + x, rect.getY() + y, rect.getHeight(), rect.getWidth());
+        } else {
+            AffineTransform affineTransform = AffineTransform.getTranslateInstance(x, y);
+            shape = affineTransform.createTransformedShape(shape);
+        }
+
+    }
 }
 
 class imageWrapper implements Wrapper {
@@ -70,6 +89,11 @@ class imageWrapper implements Wrapper {
     @Override
     public void paint(Graphics2D graphics2D) {
         graphics2D.drawImage(image, x, y, null);
+    }
+
+    @Override
+    public void move(int x, int y) {
+
     }
 
     public BufferedImage getImage() {

@@ -15,6 +15,7 @@ public class Picture extends JPanel {
     private Dimension picSize;
     private LinkedList<Wrapper> wrappers = new LinkedList<>();
     private MouseAdapter adapter;
+    private boolean somethingSelected = false;
 
     public Picture(Dimension picSize, PickedColor pickedColor1, PickedColor pickedColor2) {
         this.picSize = picSize;
@@ -303,6 +304,89 @@ public class Picture extends JPanel {
         addMouseMotionListener(adapter);
     }
 
+    public void selection() {
+        removeMouseListener(adapter);
+        removeMouseMotionListener(adapter);
+
+        MouseAdapter adapter = new MouseAdapter() {
+            private static final int NORTH = 0;
+            private static final int SOUTH = 1;
+            private static final int WEST = 2;
+            private static final int EAST = 3;
+            private BasicStroke stroke = new BasicStroke(5);
+            private int x;
+            private int y;
+            private boolean resize = false;
+            private Wrapper selectedShape;
+            private int side;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mouseClicked(e);
+                x = e.getX();
+                y = e.getY();
+                Rectangle2D.Double area = new Rectangle2D.Double(e.getX() - 10, e.getY() - 10, 20, 20);
+                Iterator<Wrapper> shapeIterator = wrappers.descendingIterator();
+                Wrapper wrapper;
+                Shape shape;
+                while (shapeIterator.hasNext()) {
+                    wrapper = shapeIterator.next();
+                    shape = wrapper.getShape();
+                    if (shape.getClass() == Path2D.Double.class) {
+                        shape = stroke.createStrokedShape(shape);
+                    }
+                    if (shape.intersects(area)) {
+                        selectedShape = wrapper;
+                        Point2D.Double point = new Point2D.Double(x, y);
+                        Rectangle2D bounds = shape.getBounds();
+                        Line2D.Double north = new Line2D.Double(bounds.getX(), bounds.getY(), bounds.getX() + bounds.getWidth(), bounds.getY());
+                        Line2D.Double south = new Line2D.Double(bounds.getX(), bounds.getY() + bounds.getHeight(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight());
+                        Line2D.Double west = new Line2D.Double(bounds.getX(), bounds.getY(), bounds.getX(), bounds.getY() + bounds.getHeight());
+                        Line2D.Double east = new Line2D.Double(bounds.getX() + bounds.getWidth(), bounds.getY(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight());
+
+                        if (stroke.createStrokedShape(north).contains(point)) {
+                            side = NORTH;
+                            resize = true;
+                        } else if (stroke.createStrokedShape(south).contains(point)) {
+                            side = SOUTH;
+                            resize = true;
+                        } else if (stroke.createStrokedShape(west).contains(point)) {
+                            side = WEST;
+                            resize = true;
+                        } else if (stroke.createStrokedShape(east).contains(point)) {
+                            side = EAST;
+                            resize = true;
+                        } else
+                            resize = false;
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                if (selectedShape != null) {
+                    if (!resize) {
+                        int tx = e.getX() - x;
+                        int ty = e.getY() - y;
+                        selectedShape.move(tx, ty);
+                        repaint();
+                        x = x + tx;
+                        y = y + ty;
+                    }
+                }
+            }
+
+        };
+
+        this.adapter = adapter;
+        addMouseListener(adapter);
+        addMouseMotionListener(adapter);
+
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+
 
     @Override
     public Dimension getPreferredSize() {
@@ -332,4 +416,5 @@ public class Picture extends JPanel {
         }
     }
 }
+
 
