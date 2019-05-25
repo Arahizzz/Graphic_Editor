@@ -71,15 +71,21 @@ public class Picture extends JPanel {
         removeMouseListener(adapter);
         removeMouseMotionListener(adapter);
         MouseAdapter adapter = new MouseAdapter() {
+            private BasicStroke stroke = new BasicStroke(1);
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mousePressed(e);
                 Rectangle2D.Double area = new Rectangle2D.Double(e.getX() - 10, e.getY() - 10, 20, 20);
                 Iterator<ShapeWrapper> shapeIterator = shapes.descendingIterator();
                 ShapeWrapper wrapper;
+                Shape shape;
                 while (shapeIterator.hasNext()) {
                     wrapper = shapeIterator.next();
-                    if (wrapper.getShape().intersects(area)) {
+                    shape = wrapper.getShape();
+                    if(shape.getClass()==Path2D.Double.class){
+                        shape = stroke.createStrokedShape(shape);
+                    }
+                    if (shape.intersects(area)) {
                         shapes.remove(wrapper);
                         repaint();
                         break;
@@ -208,15 +214,21 @@ public class Picture extends JPanel {
         removeMouseListener(adapter);
         removeMouseMotionListener(adapter);
         MouseAdapter adapter = new MouseAdapter() {
+            private BasicStroke stroke = new BasicStroke(1);
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                Rectangle2D.Double area = new Rectangle2D.Double(e.getX() - 15, e.getY() - 15, 15, 15);
+                super.mousePressed(e);
+                Rectangle2D.Double area = new Rectangle2D.Double(e.getX() - 10, e.getY() - 10, 20, 20);
                 Iterator<ShapeWrapper> shapeIterator = shapes.descendingIterator();
                 ShapeWrapper wrapper;
+                Shape shape;
                 while (shapeIterator.hasNext()) {
                     wrapper = shapeIterator.next();
-                    if (wrapper.getShape().intersects(area)) {
+                    shape = wrapper.getShape();
+                    if(shape.getClass()==Path2D.Double.class){
+                        shape = stroke.createStrokedShape(shape);
+                    }
+                    if (shape.intersects(area)) {
                         if (SwingUtilities.isLeftMouseButton(e))
                             wrapper.setBorderColor(pickedColor1.getColor());
                         else
@@ -237,8 +249,8 @@ public class Picture extends JPanel {
         removeMouseListener(adapter);
         removeMouseMotionListener(adapter);
         MouseAdapter adapter = new MouseAdapter() {
-            private int x0;
-            private int y0;
+            private int x;
+            private int y;
             private LinkedList<Integer> xs;
             private LinkedList<Integer> ys;
             Graphics2D graphics2D = (Graphics2D) getGraphics();
@@ -246,14 +258,14 @@ public class Picture extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                x0 = e.getX();
-                y0 = e.getY();
+                x = e.getX();
+                y = e.getY();
                 xs = new LinkedList<>();
                 ys = new LinkedList<>();
                 graphics2D.setColor(pickedColor1.getColor());
-                graphics2D.drawLine(x0, y0, x0, y0);
-                xs.add(x0);
-                ys.add(y0);
+                graphics2D.drawLine(x, y, x, y);
+                xs.add(x);
+                ys.add(y);
             }
 
             @Override
@@ -273,9 +285,11 @@ public class Picture extends JPanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
-                graphics2D.drawLine(e.getX(), e.getY(), e.getX(), e.getY());
+                graphics2D.drawLine(x, y, e.getX(), e.getY());
                 xs.add(e.getX());
                 ys.add(e.getY());
+                x=e.getX();
+                y=e.getY();
             }
         };
 

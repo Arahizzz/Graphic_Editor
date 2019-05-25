@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class EditorWindow {
     private JPanel actions;
@@ -30,9 +29,33 @@ public class EditorWindow {
     private JToggleButton button4;
     private JToggleButton circle;
     private JToggleButton select;
+    private JMenuBar menuBar = new JMenuBar();
 
     public EditorWindow() {
         initButtons();
+        initMenubar();
+    }
+
+    private void initMenubar(){
+        JMenu file = new JMenu("File");
+        JMenu options = new JMenu("Options");
+
+        JMenuItem open = new JMenuItem("Open");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem resize = new JMenuItem("Change size");
+
+        open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
+        save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
+        resize.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK));
+
+        file.add(open);
+        file.add(save);
+        options.add(resize);
+
+        menuBar.add(file);
+        menuBar.add(options);
+
+        frame.setJMenuBar(menuBar);
     }
 
     private void initButtons() {
@@ -49,6 +72,17 @@ public class EditorWindow {
         buttonGroup.add(circle);
         buttonGroup.add(selectButton);
         buttonGroup.add(select);
+
+        customButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(SwingUtilities.isLeftMouseButton(e))
+                    CustomColor.main(pickedColor1);
+                else
+                    CustomColor.main(pickedColor2);
+            }
+        });
 
         line.addActionListener(new ActionListener() {
             @Override
@@ -131,6 +165,11 @@ public class EditorWindow {
     }
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); //Windows Look and feel
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         EditorWindow window = new EditorWindow();
         JFrame frame = window.frame;
         frame.setContentPane(window.mainPanel);
