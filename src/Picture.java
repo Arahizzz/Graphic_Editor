@@ -45,7 +45,7 @@ public class Picture extends JPanel {
                 x0 = e.getX();
                 y0 = e.getY();
                 line = new Line2D.Double(x0, y0, x0, y0);
-                wrapper = new ShapeWrapper(line, pickedColor1.getColor(), pickedColor2.getColor());
+                wrapper = new LineWrapper(line, pickedColor1.getColor());
                 wrappers.add(wrapper);
             }
 
@@ -54,7 +54,7 @@ public class Picture extends JPanel {
                 super.mouseMoved(e);
                 wrappers.removeLast();
                 line = new Line2D.Double(x0, y0, e.getX(), e.getY());
-                wrapper = new ShapeWrapper(line, pickedColor1.getColor(), pickedColor2.getColor());
+                wrapper = new LineWrapper(line, pickedColor1.getColor());
                 wrappers.add(wrapper);
                 repaint();
             }
@@ -114,7 +114,7 @@ public class Picture extends JPanel {
                 x0 = e.getX();
                 y0 = e.getY();
                 rectangle = new Rectangle2D.Double(x0, y0, 1, 1);
-                wrapper = new ShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
+                wrapper = new RectangularShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
                 wrappers.add(wrapper);
             }
 
@@ -126,16 +126,16 @@ public class Picture extends JPanel {
                 wrappers.removeLast();
                 if (x0 <= x1 && y0 <= y1) {
                     rectangle = new Rectangle2D.Double(x0, y0, x1 - x0, y1 - y0);
-                    wrapper = new ShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
+                    wrapper = new RectangularShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
                 } else if (x0 > x1 && y0 > y1) {
                     rectangle = new Rectangle2D.Double(x1, y1, x0 - x1, y0 - y1);
-                    wrapper = new ShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
+                    wrapper = new RectangularShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
                 } else if (x0 > x1) {
                     rectangle = new Rectangle2D.Double(x1, y0, x0 - x1, y1 - y0);
-                    wrapper = new ShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
+                    wrapper = new RectangularShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
                 } else {
                     rectangle = new Rectangle2D.Double(x0, y1, x1 - x0, y0 - y1);
-                    wrapper = new ShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
+                    wrapper = new RectangularShapeWrapper(rectangle, pickedColor1.getColor(), pickedColor2.getColor());
                 }
                 wrappers.add(wrapper);
                 repaint();
@@ -170,7 +170,7 @@ public class Picture extends JPanel {
                 x0 = e.getX();
                 y0 = e.getY();
                 ellipse = new Ellipse2D.Double(x0, y0, 1, 1);
-                wrappers.addLast(new ShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor()));
+                wrappers.addLast(new RectangularShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor()));
             }
 
             @Override
@@ -181,16 +181,16 @@ public class Picture extends JPanel {
                 wrappers.removeLast();
                 if (x0 <= x1 && y0 <= y1) {
                     ellipse = new Ellipse2D.Double(x0, y0, x1 - x0, y1 - y0);
-                    wrapper = new ShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
+                    wrapper = new RectangularShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
                 } else if (x0 > x1 && y0 > y1) {
                     ellipse = new Ellipse2D.Double(x1, y1, x0 - x1, y0 - y1);
-                    wrapper = new ShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
+                    wrapper = new RectangularShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
                 } else if (x0 > x1) {
                     ellipse = new Ellipse2D.Double(x1, y0, x0 - x1, y1 - y0);
-                    wrapper = new ShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
+                    wrapper = new RectangularShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
                 } else {
                     ellipse = new Ellipse2D.Double(x0, y1, x1 - x0, y0 - y1);
-                    wrapper = new ShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
+                    wrapper = new RectangularShapeWrapper(ellipse, pickedColor1.getColor(), pickedColor2.getColor());
                 }
                 wrappers.add(wrapper);
                 repaint();
@@ -225,7 +225,7 @@ public class Picture extends JPanel {
                 Shape shape;
                 while (shapeIterator.hasNext()) {
                     wrapper = shapeIterator.next();
-                    if (wrapper.getClass() == ShapeWrapper.class) {
+                    if (wrapper instanceof ShapeWrapper) {
                         shape = wrapper.getShape();
                         ShapeWrapper shapeWrapper = (ShapeWrapper) wrapper;
                         if (shape.getClass() == Path2D.Double.class) {
@@ -284,7 +284,7 @@ public class Picture extends JPanel {
                 for (int i = 1; i < xArray.length; i++) {
                     path.lineTo(xArray[i], yArray[i]);
                 }
-                wrappers.add(new ShapeWrapper(path, pickedColor1.getColor(), TRANSPARENT_COLOR));
+                wrappers.add(new PathWrapper(path, pickedColor1.getColor(), TRANSPARENT_COLOR));
                 repaint();
             }
 

@@ -110,7 +110,7 @@ public class EditorWindow {
                 JFileChooser fileChooser = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "png");
                 fileChooser.setFileFilter(filter);
-                if (fileChooser.showDialog(null, "Save") == JFileChooser.APPROVE_OPTION) {
+                if (fileChooser.showDialog(null, "Open") == JFileChooser.APPROVE_OPTION) {
                     loadFile(fileChooser.getSelectedFile());
                 }
             }
