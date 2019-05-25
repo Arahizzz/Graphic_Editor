@@ -1,6 +1,13 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.MenuKeyEvent;
+import javax.swing.event.MenuKeyListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class EditorWindow {
     private JPanel actions;
@@ -29,11 +36,41 @@ public class EditorWindow {
     private JToggleButton button4;
     private JToggleButton circle;
     private JToggleButton select;
+    private JScrollPane instScroll;
+    private JPanel picPanel;
     private JMenuBar menuBar = new JMenuBar();
 
     public EditorWindow() {
         initButtons();
         initMenubar();
+        setUpScroll();
+    }
+
+    private void save(File file) {
+        BufferedImage image = new BufferedImage(picture.getWidth(), picture.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+        try {
+            Graphics2D graphics2D = image.createGraphics();
+            picture.paintComponent(graphics2D);
+            ImageIO.write(image, "png", file);
+        } catch (IOException log) {
+            log.printStackTrace();
+        }
+    }
+
+    private void loadFile(File file) {
+        try {
+            BufferedImage image = ImageIO.read(file);
+            picture.loadPic(image);
+        } catch (IOException log) {
+            log.printStackTrace();
+        }
+    }
+
+    private void setUpScroll() {
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+        instScroll.getHorizontalScrollBar().setUnitIncrement(16);
+        instScroll.getVerticalScrollBar().setUnitIncrement(16);
     }
 
     private void initMenubar(){
@@ -47,6 +84,39 @@ public class EditorWindow {
         open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
         save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         resize.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK));
+
+        resize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ResizePicture.main(picture);
+                scrollPane.revalidate();
+                scrollPane.repaint();
+            }
+        });
+
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "png");
+                fileChooser.setFileFilter(filter);
+                if (fileChooser.showDialog(null, "Save") == JFileChooser.APPROVE_OPTION) {
+                    save(fileChooser.getSelectedFile());
+                }
+            }
+        });
+
+        open.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "png");
+                fileChooser.setFileFilter(filter);
+                if (fileChooser.showDialog(null, "Save") == JFileChooser.APPROVE_OPTION) {
+                    loadFile(fileChooser.getSelectedFile());
+                }
+            }
+        });
 
         file.add(open);
         file.add(save);
@@ -134,36 +204,6 @@ public class EditorWindow {
         });
     }
 
-    private void flattenButtons() {
-        pasteButton.setContentAreaFilled(false);
-        pasteButton.setFocusPainted(false);
-        pencil.setContentAreaFilled(false);
-        pencil.setFocusPainted(false);
-        fill.setContentAreaFilled(false);
-        fill.setFocusPainted(false);
-        erase.setContentAreaFilled(false);
-        erase.setFocusPainted(false);
-        picker.setContentAreaFilled(false);
-        picker.setFocusPainted(false);
-        text.setContentAreaFilled(false);
-        text.setFocusPainted(false);
-        zoom.setContentAreaFilled(false);
-        zoom.setFocusPainted(false);
-        selectButton.setContentAreaFilled(false);
-        selectButton.setFocusPainted(false);
-        customButton.setContentAreaFilled(false);
-        customButton.setFocusPainted(false);
-        customButton.setPreferredSize(new Dimension(80, 100));
-        line.setContentAreaFilled(false);
-        line.setFocusPainted(false);
-        circle.setContentAreaFilled(false);
-        circle.setFocusPainted(false);
-        rectangle.setContentAreaFilled(false);
-        rectangle.setFocusPainted(false);
-        button4.setContentAreaFilled(false);
-        button4.setFocusPainted(false);
-    }
-
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); //Windows Look and feel
@@ -175,7 +215,7 @@ public class EditorWindow {
         frame.setContentPane(window.mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(1200, 800);
+        frame.setSize(1200, 850);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -184,6 +224,6 @@ public class EditorWindow {
         pickedColor1 = new PickedColor(Color.BLACK, "Color 1");
         pickedColor2 = new PickedColor(Color.WHITE, "Color 2");
         colors = new Colors(pickedColor1, pickedColor2);
-        picture = new Picture(600, 400, pickedColor1, pickedColor2);
+        picture = new Picture(1000, 600, pickedColor1, pickedColor2);
     }
 }
