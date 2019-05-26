@@ -82,7 +82,7 @@ public class Picture extends JPanel {
                 while (shapeIterator.hasNext()) {
                     wrapper = shapeIterator.next();
                     shape = wrapper.getShape();
-                    if (shape.getClass() == Path2D.Double.class) {
+                    if (wrapper.getClass() == PencilWrapper.class) {
                         shape = stroke.createStrokedShape(shape);
                     }
                     if (shape.intersects(area)) {
@@ -228,7 +228,7 @@ public class Picture extends JPanel {
                     if (wrapper instanceof ShapeWrapper) {
                         shape = wrapper.getShape();
                         ShapeWrapper shapeWrapper = (ShapeWrapper) wrapper;
-                        if (shape.getClass() == Path2D.Double.class) {
+                        if (wrapper.getClass() == PencilWrapper.class) {
                             shape = stroke.createStrokedShape(shape);
                         }
                         if (shape.intersects(area)) {
@@ -284,7 +284,7 @@ public class Picture extends JPanel {
                 for (int i = 1; i < xArray.length; i++) {
                     path.lineTo(xArray[i], yArray[i]);
                 }
-                wrappers.add(new PathWrapper(path, pickedColor1.getColor(), TRANSPARENT_COLOR));
+                wrappers.add(new PencilWrapper(path, pickedColor1.getColor(), TRANSPARENT_COLOR));
                 repaint();
             }
 
@@ -313,12 +313,22 @@ public class Picture extends JPanel {
             private static final int SOUTH = 1;
             private static final int WEST = 2;
             private static final int EAST = 3;
-            private BasicStroke stroke = new BasicStroke(5);
+            private static final int NORTH_WEST = 4;
+            private static final int NORTH_EAST = 5;
+            private static final int SOUTH_WEST = 6;
+            private static final int SOUTH_EAST = 7;
+
+            private static final int NOTHING = 0;
+            private static final int MOVE = 1;
+            private static final int RESIZE = 2;
+            private static final int ROTATE = 3;
+
+            private BasicStroke stroke = new BasicStroke(10);
             private int x;
             private int y;
-            private boolean resize = false;
             private Wrapper selectedShape;
             private int side;
+            private int mode;
 
             @Override
             public void mousePressed(MouseEvent e) {
@@ -343,22 +353,39 @@ public class Picture extends JPanel {
                         Line2D.Double south = new Line2D.Double(bounds.getX(), bounds.getY() + bounds.getHeight(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight());
                         Line2D.Double west = new Line2D.Double(bounds.getX(), bounds.getY(), bounds.getX(), bounds.getY() + bounds.getHeight());
                         Line2D.Double east = new Line2D.Double(bounds.getX() + bounds.getWidth(), bounds.getY(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight());
-
-                        if (stroke.createStrokedShape(north).contains(point)) {
+                        Point2D.Double nort_west = new Point2D.Double(bounds.getMinX(), bounds.getMinY());
+                        Point2D.Double nort_east = new Point2D.Double(bounds.getMaxX(), bounds.getMinY());
+                        Point2D.Double south_west = new Point2D.Double(bounds.getMinX(), bounds.getMaxY());
+                        Point2D.Double south_east = new Point2D.Double(bounds.getMaxX(), bounds.getMaxY());
+                        if (area.contains(nort_west)) {
+                            side = NORTH_WEST;
+                            mode = RESIZE;
+                        } else if (area.contains(nort_east)) {
+                            side = NORTH_EAST;
+                            mode = RESIZE;
+                        } else if (area.contains(south_west)) {
+                            side = SOUTH_WEST;
+                            mode = RESIZE;
+                        } else if (area.contains(south_east)) {
+                            side = SOUTH_EAST;
+                            mode = RESIZE;
+                        } else if (stroke.createStrokedShape(north).contains(point)) {
                             side = NORTH;
-                            resize = true;
+                            mode = RESIZE;
                         } else if (stroke.createStrokedShape(south).contains(point)) {
                             side = SOUTH;
-                            resize = true;
+                            mode = RESIZE;
                         } else if (stroke.createStrokedShape(west).contains(point)) {
                             side = WEST;
-                            resize = true;
+                            mode = RESIZE;
                         } else if (stroke.createStrokedShape(east).contains(point)) {
                             side = EAST;
-                            resize = true;
+                            mode = RESIZE;
                         } else
-                            resize = false;
-                        return;
+                            mode = MOVE;
+                        break;
+                    } else {
+                        mode = NOTHING;
                     }
                 }
             }
@@ -367,13 +394,38 @@ public class Picture extends JPanel {
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
                 if (selectedShape != null) {
-                    if (!resize) {
+                    if (mode == MOVE) {
                         int tx = e.getX() - x;
                         int ty = e.getY() - y;
                         selectedShape.move(tx, ty);
                         repaint();
                         x = x + tx;
                         y = y + ty;
+                    } else if (mode == RESIZE) {
+                        final int x = selectedShape.getShape().getBounds().x;
+                        final int y = selectedShape.getShape().getBounds().y;
+                        if (side == SOUTH_EAST)
+                            selectedShape.reSize(e.getX() - x, e.getY() - y);
+                        else if (side == SOUTH_WEST) {
+                            selectedShape.reSize(selectedShape.getShape().getBounds().width + x - e.getX(), e.getY() - y);
+                            selectedShape.move(e.getX() - x, 0);
+                        } else if (side == NORTH_WEST) {
+                            selectedShape.reSize(selectedShape.getShape().getBounds().width + x - e.getX(), selectedShape.getShape().getBounds().height + y - e.getY());
+                            selectedShape.move(e.getX() - x, e.getY() - y);
+                        } else if (side == NORTH_EAST) {
+                            selectedShape.reSize(e.getX() - x, selectedShape.getShape().getBounds().height + y - e.getY());
+                            selectedShape.move(0, e.getY() - y);
+                        } else if (side == NORTH) {
+                            selectedShape.reSize(selectedShape.getShape().getBounds().width, selectedShape.getShape().getBounds().height + y - e.getY());
+                            selectedShape.move(0, e.getY() - y);
+                        } else if (side == SOUTH)
+                            selectedShape.reSize(selectedShape.getShape().getBounds().width, e.getY() - y);
+                        else if (side == WEST) {
+                            selectedShape.reSize(selectedShape.getShape().getBounds().width + x - e.getX(), selectedShape.getShape().getBounds().height);
+                            selectedShape.move(e.getX() - x, 0);
+                        } else if (side == EAST)
+                            selectedShape.reSize(e.getX() - x, selectedShape.getShape().getBounds().height);
+                        repaint();
                     }
                 }
             }
@@ -416,5 +468,6 @@ public class Picture extends JPanel {
         }
     }
 }
+
 
 

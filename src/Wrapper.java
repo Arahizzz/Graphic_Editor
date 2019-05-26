@@ -1,6 +1,8 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.ExecutionException;
 
 public interface Wrapper {
     Shape getShape();
@@ -8,6 +10,8 @@ public interface Wrapper {
     void paint(Graphics2D graphics2D);
 
     void move(int x, int y);
+
+    void reSize(int newW, int newH);
 }
 
 abstract class ShapeWrapper implements Wrapper {
@@ -45,12 +49,10 @@ abstract class ShapeWrapper implements Wrapper {
         g2d.setColor(borderColor);
         g2d.draw(getShape());
     }
-
-    abstract public void move(int x, int y);
 }
 
 class RectangularShapeWrapper extends ShapeWrapper {
-    RectangularShape rectangularShape;
+    private RectangularShape rectangularShape;
 
     public RectangularShapeWrapper(RectangularShape rectangularShape, Color borderColor, Color fillColor) {
         super(borderColor, fillColor);
@@ -66,10 +68,15 @@ class RectangularShapeWrapper extends ShapeWrapper {
         rectangularShape.setFrame(rectangularShape.getX() + x, rectangularShape.getY() + y,
                 rectangularShape.getWidth(), rectangularShape.getHeight());
     }
+
+    @Override
+    public void reSize(int newW, int newH) {
+        rectangularShape.setFrame(rectangularShape.getX(), rectangularShape.getY(), newW, newH);
+    }
 }
 
 class LineWrapper extends ShapeWrapper {
-    Line2D line;
+    private Line2D line;
 
     public LineWrapper(Line2D line, Color borderColor) {
         super(borderColor, null);
@@ -90,12 +97,17 @@ class LineWrapper extends ShapeWrapper {
     public void move(int x, int y) {
         line.setLine(line.getX1() + x, line.getY1() + y, line.getX2() + x, line.getY2() + y);
     }
+
+    @Override
+    public void reSize(int newW, int newH) {
+        //Resize of line is forbidden
+    }
 }
 
-class PathWrapper extends ShapeWrapper {
-    Path2D path;
+class PencilWrapper extends ShapeWrapper {
+    private Path2D path;
 
-    public PathWrapper(Path2D path, Color borderColor, Color fillColor) {
+    public PencilWrapper(Path2D path, Color borderColor, Color fillColor) {
         super(borderColor, fillColor);
         this.path = path;
     }
@@ -109,6 +121,11 @@ class PathWrapper extends ShapeWrapper {
     public void move(int x, int y) {
         AffineTransform affineTransform = AffineTransform.getTranslateInstance(x, y);
         path = (Path2D) affineTransform.createTransformedShape(path);
+    }
+
+    @Override
+    public void reSize(int newW, int newH) {
+        //Resize of pencil is forbidden
     }
 }
 
@@ -140,6 +157,35 @@ class imageWrapper implements Wrapper {
     public void move(int x, int y) {
         this.x += x;
         this.y += y;
+        bounds = new Rectangle2D.Double(this.x, this.y, image.getWidth(), image.getHeight());
+    }
+
+    @Override
+    public void reSize(int newW, int newH) {
+        class Resizer extends SwingWorker<BufferedImage, Void> {
+
+            @Override
+            protected void done() {
+                try {
+                    image = get();
+                    bounds = new Rectangle2D.Double(x, y, image.getWidth(), image.getHeight());
+                } catch (InterruptedException i) {
+                } catch (ExecutionException e) {
+                }
+            }
+
+            @Override
+            protected BufferedImage doInBackground() throws Exception {
+                Image tmp = image.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+                BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+                Graphics2D g2d = dimg.createGraphics();
+                g2d.drawImage(tmp, 0, 0, null);
+                return dimg;
+            }
+        }
+        Resizer resizer = new Resizer();
+        resizer.execute();
     }
 
     public BufferedImage getImage() {
