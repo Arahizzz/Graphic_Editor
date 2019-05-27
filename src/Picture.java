@@ -75,17 +75,12 @@ public class Picture extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mousePressed(e);
-                Rectangle2D.Double area = new Rectangle2D.Double(e.getX() - 10, e.getY() - 10, 20, 20);
+                Point2D point2D = e.getPoint();
                 Iterator<Wrapper> shapeIterator = wrappers.descendingIterator();
                 Wrapper wrapper;
-                Shape shape;
                 while (shapeIterator.hasNext()) {
                     wrapper = shapeIterator.next();
-                    shape = wrapper.getShape();
-                    if (wrapper.getClass() == PencilWrapper.class) {
-                        shape = stroke.createStrokedShape(shape);
-                    }
-                    if (shape.intersects(area)) {
+                    if (wrapper.contains(point2D)) {
                         wrappers.remove(wrapper);
                         repaint();
                         break;
@@ -210,6 +205,61 @@ public class Picture extends JPanel {
         setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
     }
 
+    public void triangle() {
+        removeMouseListener(adapter);
+        removeMouseMotionListener(adapter);
+        MouseAdapter adapter = new MouseAdapter() {
+            private int x0;
+            private int y0;
+            private Triangle triangle;
+            private ShapeWrapper wrapper;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                x0 = e.getX();
+                y0 = e.getY();
+                triangle = new Triangle(x0, y0, 1, 1);
+                wrappers.addLast(new TriangleWrapper(triangle, pickedColor1.getColor(), pickedColor2.getColor()));
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int x1 = e.getX();
+                int y1 = e.getY();
+                super.mouseMoved(e);
+                wrappers.removeLast();
+                if (x0 <= x1 && y0 <= y1) {
+                    triangle = new Triangle(x0, y0, x1 - x0, y1 - y0);
+                    wrapper = new TriangleWrapper(triangle, pickedColor1.getColor(), pickedColor2.getColor());
+                } else if (x0 > x1 && y0 > y1) {
+                    triangle = new Triangle(x1, y1, x0 - x1, y0 - y1);
+                    wrapper = new TriangleWrapper(triangle, pickedColor1.getColor(), pickedColor2.getColor());
+                } else if (x0 > x1) {
+                    triangle = new Triangle(x1, y0, x0 - x1, y1 - y0);
+                    wrapper = new TriangleWrapper(triangle, pickedColor1.getColor(), pickedColor2.getColor());
+                } else {
+                    triangle = new Triangle(x0, y1, x1 - x0, y0 - y1);
+                    wrapper = new TriangleWrapper(triangle, pickedColor1.getColor(), pickedColor2.getColor());
+                }
+                wrappers.add(wrapper);
+                repaint();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                if (Math.abs(e.getX() - x0) < 2 || Math.abs(e.getY() - y0) < 2)
+                    wrappers.removeLast();
+            }
+        };
+        this.adapter = adapter;
+        addMouseListener(adapter);
+        addMouseMotionListener(adapter);
+
+        setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+    }
+
     public void fill() {
         removeMouseListener(adapter);
         removeMouseMotionListener(adapter);
@@ -219,25 +269,19 @@ public class Picture extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mousePressed(e);
-                Rectangle2D.Double area = new Rectangle2D.Double(e.getX() - 10, e.getY() - 10, 20, 20);
+                Point2D point2D = e.getPoint();
                 Iterator<Wrapper> shapeIterator = wrappers.descendingIterator();
                 Wrapper wrapper;
-                Shape shape;
+                ShapeWrapper shape;
                 while (shapeIterator.hasNext()) {
                     wrapper = shapeIterator.next();
                     if (wrapper instanceof ShapeWrapper) {
-                        shape = wrapper.getShape();
-                        ShapeWrapper shapeWrapper = (ShapeWrapper) wrapper;
-                        if (wrapper.getClass() == PencilWrapper.class) {
-                            shape = stroke.createStrokedShape(shape);
-                        }
-                        if (shape.intersects(area)) {
+                        if (wrapper.contains(point2D)) {
+                            shape = (ShapeWrapper) wrapper;
                             if (SwingUtilities.isLeftMouseButton(e))
-                                shapeWrapper.setBorderColor(pickedColor1.getColor());
-                            else {
-                                if (shapeWrapper.getShape().getClass() != Path2D.Double.class)
-                                    shapeWrapper.setFillColor(pickedColor2.getColor());
-                            }
+                                shape.setBorderColor(pickedColor1.getColor());
+                            else
+                                shape.setFillColor(pickedColor2.getColor());
                             repaint();
                             break;
                         }
@@ -309,122 +353,46 @@ public class Picture extends JPanel {
         removeMouseMotionListener(adapter);
 
         MouseAdapter adapter = new MouseAdapter() {
-            private static final int NORTH = 0;
-            private static final int SOUTH = 1;
-            private static final int WEST = 2;
-            private static final int EAST = 3;
-            private static final int NORTH_WEST = 4;
-            private static final int NORTH_EAST = 5;
-            private static final int SOUTH_WEST = 6;
-            private static final int SOUTH_EAST = 7;
-
-            private static final int NOTHING = 0;
-            private static final int MOVE = 1;
-            private static final int RESIZE = 2;
-            private static final int ROTATE = 3;
-
-            private BasicStroke stroke = new BasicStroke(10);
             private int x;
             private int y;
             private Wrapper selectedShape;
-            private int side;
-            private int mode;
+            private Side side;
+            private Mode mode;
 
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mouseClicked(e);
                 x = e.getX();
                 y = e.getY();
-                Rectangle2D.Double area = new Rectangle2D.Double(e.getX() - 10, e.getY() - 10, 20, 20);
+                Point2D point2D = e.getPoint();
                 Iterator<Wrapper> shapeIterator = wrappers.descendingIterator();
                 Wrapper wrapper;
-                Shape shape;
                 while (shapeIterator.hasNext()) {
                     wrapper = shapeIterator.next();
-                    shape = wrapper.getShape();
-                    if (shape.getClass() == Path2D.Double.class) {
-                        shape = stroke.createStrokedShape(shape);
-                    }
-                    if (shape.intersects(area)) {
+                    if (wrapper.contains(point2D)) {
+                        Tuple<Mode, Side> tuple = wrapper.getMode(e);
+                        side = tuple.getSecond();
+                        mode = tuple.getFirst();
                         selectedShape = wrapper;
-                        Point2D.Double point = new Point2D.Double(x, y);
-                        Rectangle2D bounds = shape.getBounds();
-                        Line2D.Double north = new Line2D.Double(bounds.getX(), bounds.getY(), bounds.getX() + bounds.getWidth(), bounds.getY());
-                        Line2D.Double south = new Line2D.Double(bounds.getX(), bounds.getY() + bounds.getHeight(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight());
-                        Line2D.Double west = new Line2D.Double(bounds.getX(), bounds.getY(), bounds.getX(), bounds.getY() + bounds.getHeight());
-                        Line2D.Double east = new Line2D.Double(bounds.getX() + bounds.getWidth(), bounds.getY(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight());
-                        Point2D.Double nort_west = new Point2D.Double(bounds.getMinX(), bounds.getMinY());
-                        Point2D.Double nort_east = new Point2D.Double(bounds.getMaxX(), bounds.getMinY());
-                        Point2D.Double south_west = new Point2D.Double(bounds.getMinX(), bounds.getMaxY());
-                        Point2D.Double south_east = new Point2D.Double(bounds.getMaxX(), bounds.getMaxY());
-                        if (area.contains(nort_west)) {
-                            side = NORTH_WEST;
-                            mode = RESIZE;
-                        } else if (area.contains(nort_east)) {
-                            side = NORTH_EAST;
-                            mode = RESIZE;
-                        } else if (area.contains(south_west)) {
-                            side = SOUTH_WEST;
-                            mode = RESIZE;
-                        } else if (area.contains(south_east)) {
-                            side = SOUTH_EAST;
-                            mode = RESIZE;
-                        } else if (stroke.createStrokedShape(north).contains(point)) {
-                            side = NORTH;
-                            mode = RESIZE;
-                        } else if (stroke.createStrokedShape(south).contains(point)) {
-                            side = SOUTH;
-                            mode = RESIZE;
-                        } else if (stroke.createStrokedShape(west).contains(point)) {
-                            side = WEST;
-                            mode = RESIZE;
-                        } else if (stroke.createStrokedShape(east).contains(point)) {
-                            side = EAST;
-                            mode = RESIZE;
-                        } else
-                            mode = MOVE;
-                        break;
-                    } else {
-                        mode = NOTHING;
+                        return;
                     }
                 }
+                selectedShape = null;
             }
 
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
                 if (selectedShape != null) {
-                    if (mode == MOVE) {
+                    if (mode == Mode.MOVE) {
                         int tx = e.getX() - x;
                         int ty = e.getY() - y;
                         selectedShape.move(tx, ty);
                         repaint();
                         x = x + tx;
                         y = y + ty;
-                    } else if (mode == RESIZE) {
-                        final int x = selectedShape.getShape().getBounds().x;
-                        final int y = selectedShape.getShape().getBounds().y;
-                        if (side == SOUTH_EAST)
-                            selectedShape.reSize(e.getX() - x, e.getY() - y);
-                        else if (side == SOUTH_WEST) {
-                            selectedShape.reSize(selectedShape.getShape().getBounds().width + x - e.getX(), e.getY() - y);
-                            selectedShape.move(e.getX() - x, 0);
-                        } else if (side == NORTH_WEST) {
-                            selectedShape.reSize(selectedShape.getShape().getBounds().width + x - e.getX(), selectedShape.getShape().getBounds().height + y - e.getY());
-                            selectedShape.move(e.getX() - x, e.getY() - y);
-                        } else if (side == NORTH_EAST) {
-                            selectedShape.reSize(e.getX() - x, selectedShape.getShape().getBounds().height + y - e.getY());
-                            selectedShape.move(0, e.getY() - y);
-                        } else if (side == NORTH) {
-                            selectedShape.reSize(selectedShape.getShape().getBounds().width, selectedShape.getShape().getBounds().height + y - e.getY());
-                            selectedShape.move(0, e.getY() - y);
-                        } else if (side == SOUTH)
-                            selectedShape.reSize(selectedShape.getShape().getBounds().width, e.getY() - y);
-                        else if (side == WEST) {
-                            selectedShape.reSize(selectedShape.getShape().getBounds().width + x - e.getX(), selectedShape.getShape().getBounds().height);
-                            selectedShape.move(e.getX() - x, 0);
-                        } else if (side == EAST)
-                            selectedShape.reSize(e.getX() - x, selectedShape.getShape().getBounds().height);
+                    } else if (mode == Mode.RESIZE) {
+                        selectedShape.resizeHandler(e, side);
                         repaint();
                     }
                 }
@@ -466,6 +434,11 @@ public class Picture extends JPanel {
         for (Wrapper wrapper : wrappers) {
             wrapper.paint(g2d);
         }
+    }
+
+    public void addWrapper(Wrapper wrapper) {
+        wrappers.add(wrapper);
+        repaint();
     }
 }
 

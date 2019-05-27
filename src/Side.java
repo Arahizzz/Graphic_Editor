@@ -1,0 +1,9 @@
+public enum Side {
+    NORTH, WEST, SOUTH, EAST,
+    NORTH_WEST, NORTH_EAST, SOUTH_WEST, SOUTH_EAST,
+    NONE, POINT1, POINT2
+}
+
+enum Mode {
+    NOTHING, MOVE, RESIZE, ROTATION
+}

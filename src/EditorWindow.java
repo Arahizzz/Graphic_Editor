@@ -25,13 +25,10 @@ public class EditorWindow {
     private JPanel shapes;
     private JToggleButton pencil;
     private JToggleButton fill;
-    private JToggleButton text;
     private JToggleButton erase;
-    private JToggleButton zoom;
-    private JToggleButton picker;
     private JToggleButton line;
     private JToggleButton rectangle;
-    private JToggleButton button4;
+    private JToggleButton triangle;
     private JToggleButton circle;
     private JToggleButton select;
     private JScrollPane instScroll;
@@ -132,14 +129,12 @@ public class EditorWindow {
         buttonGroup.add(pencil);
         buttonGroup.add(fill);
         buttonGroup.add(erase);
-        buttonGroup.add(picker);
-        buttonGroup.add(text);
-        buttonGroup.add(zoom);
         buttonGroup.add(line);
         buttonGroup.add(rectangle);
         buttonGroup.add(circle);
         buttonGroup.add(selectButton);
         buttonGroup.add(select);
+        buttonGroup.add(triangle);
 
         customButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -198,6 +193,20 @@ public class EditorWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 picture.Pencil();
+            }
+        });
+
+        triangle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                picture.triangle();
+            }
+        });
+
+        pasteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TextInsert.main(picture);
             }
         });
 
