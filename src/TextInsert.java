@@ -15,6 +15,7 @@ public class TextInsert extends JDialog {
     private Picture picture;
 
     public TextInsert(Picture picture) {
+        setTitle("Insert text");
         this.picture = picture;
         setContentPane(contentPane);
         setModal(true);

@@ -3,8 +3,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public class CustomColor extends JDialog {
     private JPanel contentPane;
@@ -16,6 +14,7 @@ public class CustomColor extends JDialog {
     private PickedColor pickedColor;
 
     public CustomColor(PickedColor pickedColor) {
+        setTitle("Pick color");
         this.pickedColor = pickedColor;
         errorLabel.setVisible(false);
 

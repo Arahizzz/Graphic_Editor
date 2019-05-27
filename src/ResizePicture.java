@@ -11,6 +11,7 @@ public class ResizePicture extends JDialog {
     private JSpinner spinner2;
 
     public ResizePicture(Picture picture) {
+        setTitle("Change size");
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);

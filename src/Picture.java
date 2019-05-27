@@ -533,7 +533,6 @@ public class Picture extends JPanel {
     }
 
     public void loadPic(BufferedImage image) {
-        setPicSize(image.getWidth(), image.getHeight());
         wrappers.add(new imageWrapper(image, 0, 0));
     }
 
