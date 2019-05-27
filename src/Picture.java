@@ -211,7 +211,7 @@ public class Picture extends JPanel {
         MouseAdapter adapter = new MouseAdapter() {
             private int x0;
             private int y0;
-            private Triangle triangle;
+            private FigureFrame triangle;
             private ShapeWrapper wrapper;
 
             @Override
@@ -219,7 +219,7 @@ public class Picture extends JPanel {
                 super.mousePressed(e);
                 x0 = e.getX();
                 y0 = e.getY();
-                triangle = new Triangle(x0, y0, 1, 1);
+                triangle = new FigureFrame(x0, y0, 1, 1);
                 wrappers.addLast(new TriangleWrapper(triangle, pickedColor1.getColor(), pickedColor2.getColor()));
             }
 
@@ -230,17 +230,127 @@ public class Picture extends JPanel {
                 super.mouseMoved(e);
                 wrappers.removeLast();
                 if (x0 <= x1 && y0 <= y1) {
-                    triangle = new Triangle(x0, y0, x1 - x0, y1 - y0);
+                    triangle = new FigureFrame(x0, y0, x1 - x0, y1 - y0);
                     wrapper = new TriangleWrapper(triangle, pickedColor1.getColor(), pickedColor2.getColor());
                 } else if (x0 > x1 && y0 > y1) {
-                    triangle = new Triangle(x1, y1, x0 - x1, y0 - y1);
+                    triangle = new FigureFrame(x1, y1, x0 - x1, y0 - y1);
                     wrapper = new TriangleWrapper(triangle, pickedColor1.getColor(), pickedColor2.getColor());
                 } else if (x0 > x1) {
-                    triangle = new Triangle(x1, y0, x0 - x1, y1 - y0);
+                    triangle = new FigureFrame(x1, y0, x0 - x1, y1 - y0);
                     wrapper = new TriangleWrapper(triangle, pickedColor1.getColor(), pickedColor2.getColor());
                 } else {
-                    triangle = new Triangle(x0, y1, x1 - x0, y0 - y1);
+                    triangle = new FigureFrame(x0, y1, x1 - x0, y0 - y1);
                     wrapper = new TriangleWrapper(triangle, pickedColor1.getColor(), pickedColor2.getColor());
+                }
+                wrappers.add(wrapper);
+                repaint();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                if (Math.abs(e.getX() - x0) < 2 || Math.abs(e.getY() - y0) < 2)
+                    wrappers.removeLast();
+            }
+        };
+        this.adapter = adapter;
+        addMouseListener(adapter);
+        addMouseMotionListener(adapter);
+
+        setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+    }
+
+    public void pentagon() {
+        removeMouseListener(adapter);
+        removeMouseMotionListener(adapter);
+        MouseAdapter adapter = new MouseAdapter() {
+            private int x0;
+            private int y0;
+            private FigureFrame figureFrame;
+            private ShapeWrapper wrapper;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                x0 = e.getX();
+                y0 = e.getY();
+                figureFrame = new FigureFrame(x0, y0, 1, 1);
+                wrappers.addLast(new PentagonWrapper(figureFrame, pickedColor1.getColor(), pickedColor2.getColor()));
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int x1 = e.getX();
+                int y1 = e.getY();
+                super.mouseMoved(e);
+                wrappers.removeLast();
+                if (x0 <= x1 && y0 <= y1) {
+                    figureFrame = new FigureFrame(x0, y0, x1 - x0, y1 - y0);
+                    wrapper = new PentagonWrapper(figureFrame, pickedColor1.getColor(), pickedColor2.getColor());
+                } else if (x0 > x1 && y0 > y1) {
+                    figureFrame = new FigureFrame(x1, y1, x0 - x1, y0 - y1);
+                    wrapper = new PentagonWrapper(figureFrame, pickedColor1.getColor(), pickedColor2.getColor());
+                } else if (x0 > x1) {
+                    figureFrame = new FigureFrame(x1, y0, x0 - x1, y1 - y0);
+                    wrapper = new PentagonWrapper(figureFrame, pickedColor1.getColor(), pickedColor2.getColor());
+                } else {
+                    figureFrame = new FigureFrame(x0, y1, x1 - x0, y0 - y1);
+                    wrapper = new PentagonWrapper(figureFrame, pickedColor1.getColor(), pickedColor2.getColor());
+                }
+                wrappers.add(wrapper);
+                repaint();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                if (Math.abs(e.getX() - x0) < 2 || Math.abs(e.getY() - y0) < 2)
+                    wrappers.removeLast();
+            }
+        };
+        this.adapter = adapter;
+        addMouseListener(adapter);
+        addMouseMotionListener(adapter);
+
+        setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+    }
+
+    public void star() {
+        removeMouseListener(adapter);
+        removeMouseMotionListener(adapter);
+        MouseAdapter adapter = new MouseAdapter() {
+            private int x0;
+            private int y0;
+            private FigureFrame figureFrame;
+            private ShapeWrapper wrapper;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                x0 = e.getX();
+                y0 = e.getY();
+                figureFrame = new FigureFrame(x0, y0, 1, 1);
+                wrappers.addLast(new StarWrapper(figureFrame, pickedColor1.getColor(), pickedColor2.getColor()));
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int x1 = e.getX();
+                int y1 = e.getY();
+                super.mouseMoved(e);
+                wrappers.removeLast();
+                if (x0 <= x1 && y0 <= y1) {
+                    figureFrame = new FigureFrame(x0, y0, x1 - x0, y1 - y0);
+                    wrapper = new StarWrapper(figureFrame, pickedColor1.getColor(), pickedColor2.getColor());
+                } else if (x0 > x1 && y0 > y1) {
+                    figureFrame = new FigureFrame(x1, y1, x0 - x1, y0 - y1);
+                    wrapper = new StarWrapper(figureFrame, pickedColor1.getColor(), pickedColor2.getColor());
+                } else if (x0 > x1) {
+                    figureFrame = new FigureFrame(x1, y0, x0 - x1, y1 - y0);
+                    wrapper = new StarWrapper(figureFrame, pickedColor1.getColor(), pickedColor2.getColor());
+                } else {
+                    figureFrame = new FigureFrame(x0, y1, x1 - x0, y0 - y1);
+                    wrapper = new StarWrapper(figureFrame, pickedColor1.getColor(), pickedColor2.getColor());
                 }
                 wrappers.add(wrapper);
                 repaint();
@@ -431,6 +541,9 @@ public class Picture extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         for (Wrapper wrapper : wrappers) {
             wrapper.paint(g2d);
         }

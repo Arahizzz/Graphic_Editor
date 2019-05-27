@@ -1,10 +1,10 @@
-public class Triangle {
+public class FigureFrame {
     private int x;
     private int y;
     private int width;
     private int height;
 
-    public Triangle(int x, int y, int width, int height) {
+    public FigureFrame(int x, int y, int width, int height) {
         this.x = x;
         this.width = width;
         this.y = y;

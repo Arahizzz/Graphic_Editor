@@ -255,19 +255,19 @@ class PencilWrapper extends ShapeWrapper {
 
 class TriangleWrapper extends ShapeWrapper {
     Path2D figure = new Path2D.Double();
-    Triangle triangle;
+    FigureFrame figureFrame;
 
-    public TriangleWrapper(Triangle triangle, Color borderColor, Color fillColor) {
+    public TriangleWrapper(FigureFrame figureFrame, Color borderColor, Color fillColor) {
         super(borderColor, fillColor);
-        this.triangle = triangle;
+        this.figureFrame = figureFrame;
     }
 
     @Override
     public void paint(Graphics2D g2d) {
         figure.reset();
-        figure.moveTo(triangle.getX(), triangle.getY());
-        figure.lineTo(triangle.getX(), triangle.getY() + triangle.getHeight());
-        figure.lineTo(triangle.getX() + triangle.getWidth(), triangle.getY() + triangle.getHeight());
+        figure.moveTo(figureFrame.getX(), figureFrame.getY());
+        figure.lineTo(figureFrame.getX(), figureFrame.getY() + figureFrame.getHeight());
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth(), figureFrame.getY() + figureFrame.getHeight());
         figure.closePath();
 
         g2d.setColor(getFillColor());
@@ -278,8 +278,8 @@ class TriangleWrapper extends ShapeWrapper {
 
     @Override
     public void move(int x, int y) {
-        triangle.setX(triangle.getX() + x);
-        triangle.setY(triangle.getY() + y);
+        figureFrame.setX(figureFrame.getX() + x);
+        figureFrame.setY(figureFrame.getY() + y);
     }
 
     @Override
@@ -310,7 +310,7 @@ class TriangleWrapper extends ShapeWrapper {
     }
 
     public void reSize(int newW, int newH) {
-        triangle.setFrame(triangle.getX(), triangle.getY(), newW, newH);
+        figureFrame.setFrame(figureFrame.getX(), figureFrame.getY(), newW, newH);
     }
 
     @Override
@@ -332,6 +332,58 @@ class TriangleWrapper extends ShapeWrapper {
     }
 }
 
+class PentagonWrapper extends TriangleWrapper {
+
+    public PentagonWrapper(FigureFrame figureFrame, Color borderColor, Color fillColor) {
+        super(figureFrame, borderColor, fillColor);
+    }
+
+    @Override
+    public void paint(Graphics2D g2d) {
+        figure.reset();
+        figure.moveTo(figureFrame.getX() + figureFrame.getWidth() / 5, figureFrame.getY() + figureFrame.getHeight());
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth() * 4 / 5, figureFrame.getY() + figureFrame.getHeight());
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth(), figureFrame.getY() + figureFrame.getHeight() * 2 / 5);
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth() / 2, figureFrame.getY());
+        figure.lineTo(figureFrame.getX(), figureFrame.getY() + figureFrame.getHeight() * 2 / 5);
+        figure.closePath();
+
+
+        g2d.setColor(getFillColor());
+        g2d.fill(figure);
+        g2d.setColor(getBorderColor());
+        g2d.draw(figure);
+    }
+}
+
+class StarWrapper extends TriangleWrapper {
+
+    public StarWrapper(FigureFrame figureFrame, Color borderColor, Color fillColor) {
+        super(figureFrame, borderColor, fillColor);
+    }
+
+    @Override
+    public void paint(Graphics2D g2d) {
+        figure.reset();
+        figure.moveTo(figureFrame.getX() + figureFrame.getWidth() / 2, figureFrame.getY());
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth() * 3 / 5, figureFrame.getY() + figureFrame.getHeight() / 3);
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth(), figureFrame.getY() + figureFrame.getHeight() * 2 / 5);
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth() * 2 / 3, figureFrame.getY() + figureFrame.getHeight() * 3 / 5);
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth() * 4 / 5, figureFrame.getY() + figureFrame.getHeight());
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth() / 2, figureFrame.getY() + figureFrame.getHeight() * 3 / 4);
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth() / 5, figureFrame.getY() + figureFrame.getHeight());
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth() / 3, figureFrame.getY() + figureFrame.getHeight() * 3 / 5);
+        figure.lineTo(figureFrame.getX(), figureFrame.getY() + figureFrame.getHeight() * 2 / 5);
+        figure.lineTo(figureFrame.getX() + figureFrame.getWidth() * 2 / 5, figureFrame.getY() + figureFrame.getHeight() / 3);
+        figure.closePath();
+
+
+        g2d.setColor(getFillColor());
+        g2d.fill(figure);
+        g2d.setColor(getBorderColor());
+        g2d.draw(figure);
+    }
+}
 
 class imageWrapper implements Wrapper {
     private BufferedImage image;

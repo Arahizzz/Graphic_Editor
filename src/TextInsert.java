@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 
 public class TextInsert extends JDialog {
@@ -52,11 +54,24 @@ public class TextInsert extends JDialog {
         String[] fontnames = Arrays.stream(allFonts).map(Font::getName).toArray(String[]::new);
         comboBox1.setModel(new DefaultComboBoxModel(fontnames));
         spinner1.setModel(new SpinnerNumberModel(24, 1, 250, 15));
+        comboBox1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editorPane1.setFont(new Font((String) comboBox1.getSelectedItem(), Font.PLAIN, (Integer) spinner1.getValue()));
+            }
+        });
+
+        spinner1.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                editorPane1.setFont(new Font((String) comboBox1.getSelectedItem(), Font.PLAIN, (Integer) spinner1.getValue()));
+            }
+        });
     }
 
     private void onOK() {
         Font font = new Font((String) comboBox1.getSelectedItem(), Font.PLAIN, (Integer) spinner1.getValue());
-        TextWrapper wrapper = new TextWrapper(editorPane1.getText(), font, 20, 20);
+        TextWrapper wrapper = new TextWrapper(editorPane1.getText(), font, 20, 100);
         picture.addWrapper(wrapper);
         dispose();
     }

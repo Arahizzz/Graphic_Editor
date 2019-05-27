@@ -216,6 +216,24 @@
                       <icon value="icons8-0-degrees-24.png"/>
                     </properties>
                   </component>
+                  <component id="7c95f" class="javax.swing.JToggleButton" binding="pentagon">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="icons8-пятиугольник-24.png"/>
+                    </properties>
+                  </component>
+                  <component id="8eb8d" class="javax.swing.JToggleButton" binding="star">
+                    <constraints>
+                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="icons8-рождественская-звезда-26.png"/>
+                    </properties>
+                  </component>
                 </children>
               </grid>
               <component id="be3ee" class="Colors" binding="colors" custom-create="true">

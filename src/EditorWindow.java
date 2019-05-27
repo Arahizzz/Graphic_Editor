@@ -32,6 +32,8 @@ public class EditorWindow {
     private JToggleButton circle;
     private JToggleButton select;
     private JScrollPane instScroll;
+    private JToggleButton pentagon;
+    private JToggleButton star;
     private JPanel picPanel;
     private JMenuBar menuBar = new JMenuBar();
 
@@ -135,6 +137,8 @@ public class EditorWindow {
         buttonGroup.add(selectButton);
         buttonGroup.add(select);
         buttonGroup.add(triangle);
+        buttonGroup.add(pentagon);
+        buttonGroup.add(star);
 
         customButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -207,6 +211,20 @@ public class EditorWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TextInsert.main(picture);
+            }
+        });
+
+        pentagon.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                picture.pentagon();
+            }
+        });
+
+        star.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                picture.star();
             }
         });
 
