@@ -59,6 +59,7 @@ public class TextInsert extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 editorPane1.setFont(new Font((String) comboBox1.getSelectedItem(), Font.PLAIN, (Integer) spinner1.getValue()));
+                revalidate();
             }
         });
 
@@ -66,6 +67,7 @@ public class TextInsert extends JDialog {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 editorPane1.setFont(new Font((String) comboBox1.getSelectedItem(), Font.PLAIN, (Integer) spinner1.getValue()));
+                revalidate();
             }
         });
     }

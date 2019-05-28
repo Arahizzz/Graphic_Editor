@@ -534,6 +534,7 @@ public class Picture extends JPanel {
 
     public void loadPic(BufferedImage image) {
         wrappers.add(new imageWrapper(image, 0, 0));
+        repaint();
     }
 
     @Override

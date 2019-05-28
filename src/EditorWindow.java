@@ -144,10 +144,15 @@ public class EditorWindow {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if(SwingUtilities.isLeftMouseButton(e))
-                    CustomColor.main(pickedColor1);
-                else
-                    CustomColor.main(pickedColor2);
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    Color newColor = JColorChooser.showDialog(null, "Choose color", Color.BLACK);
+                    if (newColor != null)
+                        pickedColor1.setColor(newColor);
+                } else {
+                    Color newColor = JColorChooser.showDialog(null, "Choose color", Color.BLACK);
+                    if (newColor != null)
+                        pickedColor2.setColor(newColor);
+                }
             }
         });
 
