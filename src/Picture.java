@@ -13,9 +13,8 @@ public class Picture extends JPanel {
     private PickedColor pickedColor1;
     private PickedColor pickedColor2;
     private Dimension picSize;
-    private LinkedList<Wrapper> wrappers = new LinkedList<>();
+    private LinkedList<Wrapper> wrappers = new LinkedList<>();  //These are all the shapes that are need to be drawn 
     private MouseAdapter adapter;
-    private boolean somethingSelected = false;
 
     public Picture(Dimension picSize, PickedColor pickedColor1, PickedColor pickedColor2) {
         this.picSize = picSize;
@@ -537,6 +536,7 @@ public class Picture extends JPanel {
         repaint();
     }
 
+    //Here we repaint all the shapes every time we change something
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
