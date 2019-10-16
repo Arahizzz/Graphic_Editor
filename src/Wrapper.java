@@ -8,15 +8,15 @@ import java.util.concurrent.ExecutionException;
 public interface Wrapper {
     Shape getShape();
 
-    void paint(Graphics2D graphics2D);
+    void paint(Graphics2D graphics2D);  //Draws shape on canvas
 
-    void move(int x, int y);
+    void move(int x, int y);        //Moves shape for x right and y left
 
-    void resizeHandler(MouseEvent e, Side side);
+    void resizeHandler(MouseEvent e, Side side);    //Detects mouse movement and resizes shape
 
-    boolean contains(Point2D point);
+    boolean contains(Point2D point);            //Returns true if shape contains this point
 
-    Tuple<Mode, Side> getMode(MouseEvent e);
+    Tuple<Mode, Side> getMode(MouseEvent e);    //Detect if user wants to resize or move shape
 }
 
 abstract class ShapeWrapper implements Wrapper {
@@ -121,6 +121,8 @@ class RectangularShapeWrapper extends ShapeWrapper {
         BasicStroke stroke = new BasicStroke(8);
         Mode mode;
         Side side = Side.NONE;
+        
+        //These are bounds of rectanglular that contains this shape
         Point2D.Double point = new Point2D.Double(x, y);
         Line2D.Double north = new Line2D.Double(rectangularShape.getX(), rectangularShape.getY(), rectangularShape.getX() + rectangularShape.getWidth(), rectangularShape.getY());
         Line2D.Double south = new Line2D.Double(rectangularShape.getX(), rectangularShape.getY() + rectangularShape.getHeight(), rectangularShape.getX() + rectangularShape.getWidth(), rectangularShape.getY() + rectangularShape.getHeight());
@@ -130,6 +132,9 @@ class RectangularShapeWrapper extends ShapeWrapper {
         Point2D.Double nort_east = new Point2D.Double(rectangularShape.getMaxX(), rectangularShape.getMinY());
         Point2D.Double south_west = new Point2D.Double(rectangularShape.getMinX(), rectangularShape.getMaxY());
         Point2D.Double south_east = new Point2D.Double(rectangularShape.getMaxX(), rectangularShape.getMaxY());
+        
+        //Detect if mouse clicked near one of the edges
+        //If it is true than we resize shape
         if (area.contains(nort_west)) {
             side = Side.NORTH_WEST;
             mode = Mode.RESIZE;
@@ -155,7 +160,7 @@ class RectangularShapeWrapper extends ShapeWrapper {
             side = Side.EAST;
             mode = Mode.RESIZE;
         } else
-            mode = Mode.MOVE;
+            mode = Mode.MOVE;   //If not then we just move shape
         return new Tuple<>(mode, side);
     }
 }
